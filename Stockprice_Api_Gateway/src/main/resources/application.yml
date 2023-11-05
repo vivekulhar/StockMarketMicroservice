@@ -1,0 +1,28 @@
+server:
+  port: 3333
+spring:
+  application:
+    name: Stockprice-Api-Gateway
+  cloud:
+    gateway:
+      routes:
+        - id: STOCK-PRICE-API
+          uri: lb://STOCK-PRICE-API
+          predicates:
+            - Path=/api1/price/**
+        - id: STOCK-CALC-API
+          uri: lb://STOCK-CALC-API
+          predicates:
+            - Path=/api2/cost/**
+      default-filters:
+        - StripPrefix=1
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+
